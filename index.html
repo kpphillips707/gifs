@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Super Hero Gifs</title>
+</head>
+
+<body>
+
+
+
+
+<h1>Super Hero GIFs</h1>
+
+
+
+	<form>
+      <span id="hero">Add Hero: <input id="add-hero" type="text" ><input id="add-to-do" value="Add Item" type="submit"></span>
+    </form>
+    <div id="gifs-appear-here">
+    <div id="heroes"></div>
+
+  <button data-hero="Superman">superman</button>
+  <button data-hero="wonderwoman">wonderwoman</button>
+  <button data-hero="spiderman">spiderman</button>
+  <div id="gifs-appear-here">
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    $("button").on("click", function() {
+
+      var hero = $(this).attr("data-hero");
+
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        hero + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+
+      $.ajax({
+          url: queryURL,
+          method: "GET" 
+        })
+
+        .done(function(response) {
+          console.log(queryURL);
+
+          console.log(response);
+
+          var results = response.data;
+
+ 
+          for (var i = 0; i < results.length; i++) {
+
+
+            var heroDiv = $("<div>");
+
+            var p = $("<p>").text("Rating: " + results[i].rating);
+
+    
+            var heroImage = $("<img>");
+
+            heroImage.attr("src", results[i].images.fixed_height.url);
+
+
+            heroDiv.append(p);
+            heroDiv.append(heroImage);
+
+	
+            $("#gifs-appear-here").prepend(heroDiv);
+          }
+        });
+    });
+
+  </script>
+</body>
+
+</html>
